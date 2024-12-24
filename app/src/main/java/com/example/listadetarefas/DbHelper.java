@@ -1,0 +1,38 @@
+package com.example.listadetarefas;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+
+public class DbHelper extends SQLiteOpenHelper {
+    private static final int VERSION = 1;
+    private static final String NOME_DB = "DB_TAREFAS";
+    static final String TABELA_TAREFAS = "tarefas";
+
+    public DbHelper(Context context) {
+        super(context, NOME_DB, null, VERSION);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String sql = "CREATE TABLE IF NOT EXISTS " + TABELA_TAREFAS +
+                " (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL);";
+        try {
+            db.execSQL(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        String sql = "DROP TABLE IF EXISTS " + TABELA_TAREFAS;
+        try {
+            db.execSQL(sql);
+            onCreate(db);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
